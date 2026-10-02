@@ -39,3 +39,14 @@ need setup. A capture describes that input and execution, not every possible pat
 See [installation](BUILD.md), [privacy](PRIVACY.md), [terms](TERMS.md) and
 [support](SUPPORT.md). The integration's license does not establish licensing for
 third-party components inside the compiled runtime.
+
+## External services and local data
+
+The launcher downloads the compiled runtime from GitHub Releases. Approved Python
+setup can contact Python/package providers to install the selected environment and
+dependencies. Imported model code may contact its own services. The bundled tldraw
+production-trial renderer can send license-usage information to tldraw; this does
+not include canvas content. Graph evidence returned through MCP enters the coding
+client and may enter its model-provider conversation. TensorViz does not operate a
+cloud ingestion service. Recipes, captures, runtime caches and permission records
+remain on the user's machine until removed. See [privacy](PRIVACY.md) for details.
