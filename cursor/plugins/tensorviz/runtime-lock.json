@@ -1,0 +1,9 @@
+{
+  "formatVersion": 1,
+  "version": "0.3.5",
+  "platform": "darwin-arm64",
+  "pythonABI": "cpython-312-darwin",
+  "sha256": "c3099cd932bd065bf3a4174e68b8f8380f19473b6da5bc8cc7753ac82de38b2e",
+  "bytes": 34971636,
+  "url": "https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.3.5/tensorviz-runtime-0.3.5-darwin-arm64.tar.gz"
+}

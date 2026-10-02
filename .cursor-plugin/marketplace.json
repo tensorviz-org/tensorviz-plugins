@@ -1,0 +1,12 @@
+{
+  "name": "tensorviz",
+  "owner": {
+    "name": "TensorViz"
+  },
+  "plugins": [
+    {
+      "name": "tensorviz",
+      "source": "cursor/plugins/tensorviz"
+    }
+  ]
+}
