@@ -12,6 +12,8 @@ for published runtime downloads. Private candidates may refer to a URL that is
 not live yet. Directory approval is separate from a repository release.
 The first target is macOS Apple Silicon with CPython 3.12.
 Other platforms and Python versions require separate builds and acceptance tests.
+The VS Code extension’s October 7 Python 3.10–3.14 checks on macOS and RunPod Linux
+do not certify this compiled plugin for those Python versions or Linux.
 
 The plugin contains a readable launcher, client manifests, a workflow skill and
 a pinned runtime URL/checksum. On first connection the launcher downloads the
