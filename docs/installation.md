@@ -1,7 +1,7 @@
 # Installation notes
 
 The [README](../README.md) contains the download links, client installation
-commands, and first-use prompts for the published 0.3.19 preview. This guide covers
+commands, and first-use prompts for the published 0.3.20 preview. This guide covers
 local repository installation, updates, and common setup problems.
 
 The standalone plugin currently requires macOS Apple Silicon and CPython 3.12.
@@ -12,11 +12,11 @@ establish compatibility for this compiled plugin.
 
 The release ZIPs contain plugin files directly. Codex and Claude Code marketplace
 registration instead requires the repository's catalog and plugin directories.
-Download and extract [the 0.3.19 repository ZIP](https://github.com/tensorviz-org/tensorviz-plugins/archive/refs/tags/v0.3.19.zip)
+Download and extract [the 0.3.20 repository ZIP](https://github.com/tensorviz-org/tensorviz-plugins/archive/refs/tags/v0.3.20.zip)
 into a persistent folder, or clone the tagged repository:
 
 ```sh
-git clone --branch v0.3.19 https://github.com/tensorviz-org/tensorviz-plugins.git
+git clone --branch v0.3.20 https://github.com/tensorviz-org/tensorviz-plugins.git
 ```
 
 Then choose your client, replacing the example path with the absolute path to
@@ -38,6 +38,26 @@ repository or its common `plugins/tensorviz` directory into that destination.
 Keep the original repository folder available for local marketplace refreshes.
 Local installation still needs internet access for the first runtime download.
 
+## T3 Code and large graphs
+
+Follow [T3 Code setup](../BUILD.md#t3-code) using the selected Codex provider's
+binary and home. A plugin installed in a different profile will not appear in T3.
+Start a new thread or restart the agent session after an update. Keep one TensorViz
+connection enabled. The originating session must remain available for the panel.
+
+The 0.3.20 integration supports inline/fullscreen display, selection context,
+captured-detail inspection, refresh approval, and panel restoration. Acceptance
+on the Mac desktop app covered eight CPU workloads, including ViT-H/14 with 632M
+parameters, a complete 4,100-node graph, and partial graphs up to 5,064 nodes.
+These workload results were recorded on the T3 development build; the release
+candidate has its own package and T3 protocol acceptance checks.
+
+A successful forward pass can still produce a partial execution recording.
+TensorViz caps each recording at 4 MiB and displays **Partial capture — recording
+size limit reached** when that limit is reached. **Passed** refers to the model's
+forward result; it does not mean every operation was recorded. GPU, training,
+T3 mobile, remote hosts, and non-Codex providers are outside this acceptance scope.
+
 ## Troubleshooting
 
 | Problem | What to check |
@@ -45,6 +65,8 @@ Local installation still needs internet access for the first runtime download.
 | `codex` or `claude` is not found | Install the corresponding client CLI using the links in the README, reopen your terminal, and check that its plugin commands are available. |
 | `plugin` is an unknown command | Update your coding client to a version with plugin support, then reopen your terminal. |
 | Marketplace catalog not found after downloading a ZIP | The release plugin ZIP is not a marketplace. Use the repository installation commands in the README or the complete repository download above. |
+| T3 captures a model but does not show an interactive panel | Use a Codex thread and the tested T3 nightly or a newer compatible build. Check the provider profile; on stable 0.0.45, request `open_graph_view` for the local browser fallback. |
+| T3 says a panel is unavailable | Send a message to resume the originating agent session, then ask the agent to reopen the graph. |
 | No tensorViz tools in a chat | Check that the plugin is enabled, then start a new chat in the model project. Restart the client if needed. |
 | Duplicate tensorViz tools or the wrong host | Disable the old companion plugin or manual tensorViz MCP entry in that client's settings. Keep one host enabled. |
 | Cursor does not discover the local plugin | Confirm that `~/.cursor/plugins/local/tensorviz/.cursor-plugin/plugin.json` exists, reload the window, and check whether your organization allows local plugin imports. An installed marketplace copy takes precedence. |
@@ -119,3 +141,11 @@ exports should preserve these guides and update their versioned download links.
 This documentation check does not establish a new end-to-end client acceptance
 result or an official marketplace listing. Runtime behavior and release assets
 are unchanged. See the [support scope](../SUPPORT.md).
+
+## Release export preservation — October 13, 2026
+
+The private release exporter now includes this guide in the root catalog and in
+both plugin ZIPs, preserves the complete installation README, and substitutes
+the generated release version in download links. Runtime checks and ZIP/source
+audits remain separate from documentation checks. T3's guide is included in
+BUILD.md for both installed plugins as well as the repository.

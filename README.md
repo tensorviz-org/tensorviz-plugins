@@ -5,7 +5,8 @@ graph. See how tensors move between layers, inspect their measured shapes, and
 refresh the graph after editing your model.
 
 **Choose your app:** [Codex](#install-in-codex) ·
-[Claude Code](#install-in-claude-code) · [Cursor](#install-in-cursor)
+[Claude Code](#install-in-claude-code) · [Cursor](#install-in-cursor) ·
+[T3 Code](#install-in-t3-code)
 
 This is a **preview for Apple Silicon Macs**. The plugin runs locally and does
 not require the tensorViz VS Code extension or a separate Node.js installation.
@@ -17,7 +18,7 @@ not require the tensorViz VS Code extension or a separate Node.js installation.
   capture; Windows, Linux, Intel Macs and CUDA are not verified targets.
 - **CPython 3.12** with compatible PyTorch and your model's dependencies, or
   tensorViz's managed Python setup when no compatible environment is available.
-- A local PyTorch model project and **Codex, Claude Code, or Cursor** with plugins
+- A local PyTorch model project and **Codex, Claude Code, Cursor, or T3 Code with its Codex provider** with plugins
   enabled. Your coding client's account and tool permissions still apply;
   tensorViz does not require its own account or provider API key.
 - Internet access for the initial runtime download and any approved Python setup.
@@ -30,13 +31,13 @@ Those commands download the plugin for you; no manual download is needed.
 For a manual download, open the
 [Releases page](https://github.com/tensorviz-org/tensorviz-plugins/releases),
 choose a version, expand **Assets**, and download the ZIP for your app.
-The links below are for **[preview 0.3.19](https://github.com/tensorviz-org/tensorviz-plugins/releases/tag/v0.3.19)**:
+The links below are for **[preview 0.3.20](https://github.com/tensorviz-org/tensorviz-plugins/releases/tag/v0.3.20)**:
 
 | Client | Plugin download | Installation |
 | --- | --- | --- |
-| Codex | [tensorviz-0.3.19.zip](https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.3.19/tensorviz-0.3.19.zip) | [Codex instructions](#install-in-codex) |
-| Claude Code | [tensorviz-0.3.19.zip](https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.3.19/tensorviz-0.3.19.zip) | [Claude Code instructions](#install-in-claude-code) |
-| Cursor | [tensorviz-cursor-0.3.19.zip](https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.3.19/tensorviz-cursor-0.3.19.zip) | [Cursor instructions](#install-in-cursor) |
+| Codex | [tensorviz-0.3.20.zip](https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.3.20/tensorviz-0.3.20.zip) | [Codex instructions](#install-in-codex) |
+| Claude Code | [tensorviz-0.3.20.zip](https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.3.20/tensorviz-0.3.20.zip) | [Claude Code instructions](#install-in-claude-code) |
+| Cursor | [tensorviz-cursor-0.3.20.zip](https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.3.20/tensorviz-cursor-0.3.20.zip) | [Cursor instructions](#install-in-cursor) |
 
 The ZIPs contain a single plugin, not a marketplace catalog (the list of plugins
 your app can install). Do not pass an extracted plugin ZIP to a
@@ -119,13 +120,13 @@ Use the **Cursor ZIP** linked above. Its launcher configuration is different
 from the Codex/Claude package. Install or update [Cursor](https://cursor.com/downloads)
 first.
 
-1. Download `tensorviz-cursor-0.3.19.zip` to your Downloads folder.
+1. Download `tensorviz-cursor-0.3.20.zip` to your Downloads folder.
 2. Keep the ZIP file in Downloads. Open the macOS **Terminal** app and, for a
    fresh installation, run:
 
    ```sh
    mkdir -p "$HOME/.cursor/plugins/local/tensorviz"
-   unzip "$HOME/Downloads/tensorviz-cursor-0.3.19.zip" \
+   unzip "$HOME/Downloads/tensorviz-cursor-0.3.20.zip" \
      -d "$HOME/.cursor/plugins/local/tensorviz"
    ```
 
@@ -134,7 +135,7 @@ first.
    tensorViz installed, follow the [update instructions](docs/installation.md#update-or-remove)
    instead of extracting over its existing files.
    These commands create Cursor's local plugin folder and unpack tensorViz into
-   it. If you downloaded a different version, replace `0.3.19` in the command
+   it. If you downloaded a different version, replace `0.3.20` in the command
    with that version.
 3. Restart Cursor or press **Command + Shift + P** and run
    **Developer: Reload Window** from the Command Palette.
@@ -148,6 +149,25 @@ Cursor's [local plugin guide](https://cursor.com/docs/plugins#test-plugins-local
 describes this import flow. Graph display can use a local browser when the client
 cannot display the Model graph panel. Check [support](SUPPORT.md) for this
 preview's compatibility limits.
+
+## Install in T3 Code
+
+Preview 0.3.20 adds the interactive **Model graph** panel to T3's Codex chats,
+including the Mac desktop app. Install tensorViz with the [Codex commands above](#install-in-codex)
+in the Codex profile selected under **T3 Settings → Providers → Codex**. Then
+start a new Codex thread or choose **Restart agent session**.
+
+Ask: “Use tensorViz to capture my PyTorch model with its saved inputs, then call
+open_graph_panel to show the interactive Model graph in this chat.” Include the
+model file and class if the project has more than one model.
+
+The panel displays inline, expands to fullscreen, and shares your selected layer
+with the agent. Reading captured details does not execute the model; Refresh
+retains the normal approval flow. Desktop acceptance used
+**T3 0.0.46-nightly.20261012.3035**. Stable **0.0.45** supports capture and inspection
+with a local browser graph, but did not render the embedded panel in testing.
+See the [T3 setup and troubleshooting guide](BUILD.md#t3-code), including custom
+Codex profiles and agent-session lifetime.
 
 ## Use tensorViz
 
