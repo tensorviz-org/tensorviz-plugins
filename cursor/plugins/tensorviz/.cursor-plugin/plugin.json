@@ -1,6 +1,6 @@
 {
   "name": "tensorviz",
-  "version": "0.3.20",
+  "version": "0.3.32",
   "description": "Explore local PyTorch models with tensorViz.",
   "author": {
     "name": "TensorViz",
