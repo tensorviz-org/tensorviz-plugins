@@ -1,9 +1,9 @@
 {
   "formatVersion": 1,
-  "version": "0.3.49",
+  "version": "0.3.50",
   "platform": "darwin-arm64",
   "pythonABI": "cpython-312-darwin",
-  "sha256": "2a9c49d85785e96b854b2b65acaad2224f5bbf02a2583bf2f363fc4ea9cc1e06",
-  "bytes": 35512411,
-  "url": "https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.3.49/tensorviz-runtime-0.3.49-darwin-arm64.tar.gz"
+  "sha256": "633ce3a02ba86208abe82e55a2b2407177f475ffeb237cc821849d08be1825f4",
+  "bytes": 35503665,
+  "url": "https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.3.50/tensorviz-runtime-0.3.50-darwin-arm64.tar.gz"
 }
