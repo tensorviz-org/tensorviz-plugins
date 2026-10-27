@@ -1,7 +1,7 @@
 # Installation notes
 
 The [README](../README.md) contains the download links, client installation
-commands, and first-use prompts for the published 0.3.52 preview. This guide covers
+commands, and first-use prompts for the published 0.3.53 preview. This guide covers
 local repository installation, updates, and common setup problems.
 
 The standalone plugin currently requires macOS Apple Silicon and CPython 3.12.
@@ -12,11 +12,11 @@ establish compatibility for this compiled plugin.
 
 The release ZIPs contain plugin files directly. Codex and Claude Code marketplace
 registration instead requires the repository's catalog and plugin directories.
-Download and extract [the 0.3.52 repository ZIP](https://github.com/tensorviz-org/tensorviz-plugins/archive/refs/tags/v0.3.52.zip)
+Download and extract [the 0.3.53 repository ZIP](https://github.com/tensorviz-org/tensorviz-plugins/archive/refs/tags/v0.3.53.zip)
 into a persistent folder, or clone the tagged repository:
 
 ```sh
-git clone --branch v0.3.52 https://github.com/tensorviz-org/tensorviz-plugins.git
+git clone --branch v0.3.53 https://github.com/tensorviz-org/tensorviz-plugins.git
 ```
 
 Then choose your client, replacing the example path with the absolute path to
