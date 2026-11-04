@@ -13,7 +13,18 @@ Discover the advertised TensorViz tools and host capabilities once. Use the exac
 workspace checkout, model file and class from the current task. Do not infer a
 workspace from the launcher's directory or silently use another worktree.
 
-Use `open_graph` when advertised. It waits briefly for completion and yields early
+If discovery reports the relevant current graph, use `get_model_context` when
+advertised before requesting another capture. Reuse complete retained facts for
+the same captured source/setup; omitted unrelated modules do not invalidate an
+included module's complete retained call list. Counts are unique registered
+parameter elements at call entry, not trainable-only counts or memory. Respect
+unknowns and capture omissions; retained input/state identity does not reverify
+current inputs, weights or dependencies. Use exact `focus`/a larger `maxBytes` for
+omitted modules and `inspect_capture` for oversized call lists. Reading context
+never refreshes execution. New source/setup or missing required measurements need
+an explicit capture through the host's existing permission flow.
+
+Use `open_graph` when a capture is needed and the tool is advertised. It waits briefly for completion and yields early
 for permission or setup. Poll the same requestId only while it remains pending;
 never start duplicate captures or sleep repeatedly in the agent. Continue its returned next action until a
 current capture succeeds, a model failure has evidence, the user cancels, or a
