@@ -6,7 +6,9 @@ local repository installation, updates, and common setup problems.
 
 The standalone plugin currently requires macOS Apple Silicon and CPython 3.12.
 The separate VS Code extension's broader Python and platform checks do not
-establish compatibility for this compiled plugin.
+establish compatibility for this compiled plugin. Release 0.3.104 has no Linux,
+Windows or Intel Mac compiled runtime assets. Source-development platform pins do
+not provide those builds. See the [tool and platform inventory](../BUILD.md#tools-and-integration-boundaries).
 
 ## Install from a local repository
 
@@ -70,6 +72,7 @@ T3 mobile, remote hosts, and non-Codex providers are outside this acceptance sco
 | No tensorViz tools in a chat | Check that the plugin is enabled, then start a new chat in the model project. Restart the client if needed. |
 | Duplicate tensorViz tools or the wrong host | Disable the old companion plugin or manual tensorViz MCP entry in that client's settings. Keep one host enabled. |
 | Cursor does not discover the local plugin | Confirm that `~/.cursor/plugins/local/tensorviz/.cursor-plugin/plugin.json` exists, reload the window, and check whether your organization allows local plugin imports. An installed marketplace copy takes precedence. |
+| Launcher reports that this preview supports macOS Apple Silicon | This is the expected result on Linux and other unsupported platforms. No runtime is downloaded. Use a supported Apple Silicon Mac; changing Python, copying the private Node launcher or bypassing the platform check cannot supply a missing native build. |
 | Runtime download fails | Check access to GitHub Releases, then reconnect. The launcher needs the runtime URL pinned in `runtime-lock.json`. |
 | Cached runtime checksum fails | Remove only the damaged archive named in the error, then reconnect to download a fresh verified copy. Do not disable checksum verification. |
 | Python environment is rejected | Select CPython 3.12 for this compiled preview. Compatibility checks for the separate VS Code extension do not apply to this binary. |
@@ -149,3 +152,29 @@ both plugin ZIPs, preserves the complete installation README, and substitutes
 the generated release version in download links. Runtime checks and ZIP/source
 audits remain separate from documentation checks. T3's guide is included in
 BUILD.md for both installed plugins as well as the repository.
+
+
+## 0.3.104 source and asset audit — November 7, 2026
+
+All four published assets were downloaded and checked against their public
+SHA-256 digests. The runtime archive and JSON manifest match both client locks.
+The common ZIP has 15 files and the Cursor ZIP has 16; before these documentation
+changes, each file matched its catalog tree. The exported skill and shell launcher
+also match merged source revision `0e17eac`. No newer plugin skill or separate
+plugin command directory was missing from the export.
+
+The host's source inventory registers 29 tools, including four app-only tools;
+see the [complete inventory](../BUILD.md#tools-and-integration-boundaries).
+Fresh installation into a disposable Codex 0.166.0 profile installed and enabled
+0.3.104. On Linux, both catalog launchers, fresh ZIP extractions and the installed
+Codex copy returned the expected unsupported-platform error without downloading a
+runtime. An isolated prebuilt source-development Node bundle (0.3.61) separately
+passed MCP initialization, discovery of all 29 tools, retained-analysis rejection
+without a model, and Model graph resource checks. These checks did not execute a
+model or verify native Mac execution or client GUI rendering. The earlier dated
+client results above remain historical.
+
+These documentation changes update the catalog checkout and its publication
+hashes. Existing release ZIPs are unchanged. Future promotion regenerates these
+files from private templates; the [release ownership note](../BUILD.md#release-ownership)
+describes the required source follow-up.
