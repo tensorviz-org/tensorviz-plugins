@@ -8,21 +8,27 @@ refresh the graph after editing your model.
 [Claude Code](#install-in-claude-code) · [Cursor](#install-in-cursor) ·
 [T3 Code](#install-in-t3-code)
 
-This is a **preview for Apple Silicon Macs**. The plugin runs locally and does
+This compiled candidate supports **Apple Silicon Macs and Linux x64 with glibc 2.35+**. The plugin runs locally and does
 not require the tensorViz VS Code extension or a separate Node.js installation.
 
 ## Requirements
 
-- **macOS on Apple Silicon** (an M-series chip). To check, open the Apple menu →
-  **About This Mac** and look at **Chip**. This compiled preview targets CPU
-  capture. The published 0.3.104 release has no Linux, Windows or Intel Mac
-  runtime; CUDA capture is outside this compiled preview's verified scope.
+- **macOS on Apple Silicon or Linux x64 with glibc 2.35 or newer**. Linux also
+  needs `/usr/bin/python3` for launcher metadata, `curl`, `sha256sum` and `tar`.
+  This compiled preview targets CPU capture. Windows, Linux ARM64, Intel Macs
+  and musl are unsupported; CUDA capture remains unverified.
 - **CPython 3.12** with compatible PyTorch and your model's dependencies, or
   tensorViz's managed Python setup when no compatible environment is available.
 - A local PyTorch model project and **Codex, Claude Code, Cursor, or T3 Code with its Codex provider** with plugins
   enabled. Your coding client's account and tool permissions still apply;
   tensorViz does not require its own account or provider API key.
 - Internet access for the initial runtime download and any approved Python setup.
+
+The launcher selects the **MCP execution host** with `uname`, not the desktop
+showing your client. Linux needs a catalog that actually pins a Linux asset;
+installed 0.3.104 remains Darwin-only until a new runtime is published. This source
+change does not update existing releases. Remote browser links require forwarding
+from that host; SSH environment variables do not select a desktop runtime.
 
 ## Download
 
@@ -32,13 +38,13 @@ Those commands download the plugin for you; no manual download is needed.
 For a manual download, open the
 [Releases page](https://github.com/tensorviz-org/tensorviz-plugins/releases),
 choose a version, expand **Assets**, and download the ZIP for your app.
-The links below are for **[preview 0.3.104](https://github.com/tensorviz-org/tensorviz-plugins/releases/tag/v0.3.104)**:
+The links below are for **[preview 0.3.108](https://github.com/tensorviz-org/tensorviz-plugins/releases/tag/v0.3.108)**:
 
 | Client | Plugin download | Installation |
 | --- | --- | --- |
-| Codex | [tensorviz-0.3.104.zip](https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.3.104/tensorviz-0.3.104.zip) | [Codex instructions](#install-in-codex) |
-| Claude Code | [tensorviz-0.3.104.zip](https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.3.104/tensorviz-0.3.104.zip) | [Claude Code instructions](#install-in-claude-code) |
-| Cursor | [tensorviz-cursor-0.3.104.zip](https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.3.104/tensorviz-cursor-0.3.104.zip) | [Cursor instructions](#install-in-cursor) |
+| Codex | [tensorviz-0.3.108.zip](https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.3.108/tensorviz-0.3.108.zip) | [Codex instructions](#install-in-codex) |
+| Claude Code | [tensorviz-0.3.108.zip](https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.3.108/tensorviz-0.3.108.zip) | [Claude Code instructions](#install-in-claude-code) |
+| Cursor | [tensorviz-cursor-0.3.108.zip](https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.3.108/tensorviz-cursor-0.3.108.zip) | [Cursor instructions](#install-in-cursor) |
 
 The ZIPs contain a single plugin, not a marketplace catalog (the list of plugins
 your app can install). Do not pass an extracted plugin ZIP to a
@@ -59,8 +65,8 @@ client marketplace listing.
 1. Install or update the [Codex CLI](https://developers.openai.com/codex/cli/).
    It must be available as `codex` in your terminal, including when you use the
    Codex desktop app.
-2. Open the macOS **Terminal** app (press **Command + Space**, type `Terminal`,
-   and press **Return**). Run these commands one at a time:
+2. Open a terminal on the machine where Codex executes, including the Linux
+   server for an SSH session. Run these commands one at a time:
 
    ```sh
    codex plugin marketplace add tensorviz-org/tensorviz-plugins
@@ -90,7 +96,7 @@ disable that connection before using this plugin. See the
 ## Install in Claude Code
 
 Install or update [Claude Code](https://code.claude.com/docs/en/setup) first.
-Open the macOS **Terminal** app and run these commands one at a time:
+Open a terminal on the MCP execution host and run these commands one at a time:
 
 ```sh
 claude plugin marketplace add tensorviz-org/tensorviz-plugins
@@ -121,13 +127,13 @@ Use the **Cursor ZIP** linked above. Its launcher configuration is different
 from the Codex/Claude package. Install or update [Cursor](https://cursor.com/downloads)
 first.
 
-1. Download `tensorviz-cursor-0.3.104.zip` to your Downloads folder.
-2. Keep the ZIP file in Downloads. Open the macOS **Terminal** app and, for a
+1. Download `tensorviz-cursor-0.3.108.zip` to your Downloads folder.
+2. Keep the ZIP file in Downloads. Open a terminal and, for a
    fresh installation, run:
 
    ```sh
    mkdir -p "$HOME/.cursor/plugins/local/tensorviz"
-   unzip "$HOME/Downloads/tensorviz-cursor-0.3.104.zip" \
+   unzip "$HOME/Downloads/tensorviz-cursor-0.3.108.zip" \
      -d "$HOME/.cursor/plugins/local/tensorviz"
    ```
 
@@ -136,7 +142,7 @@ first.
    tensorViz installed, follow the [update instructions](docs/installation.md#update-or-remove)
    instead of extracting over its existing files.
    These commands create Cursor's local plugin folder and unpack tensorViz into
-   it. If you downloaded a different version, replace `0.3.104` in the command
+   it. If you downloaded a different version, replace `0.3.108` in the command
    with that version.
 3. Restart Cursor or press **Command + Shift + P** and run
    **Developer: Reload Window** from the Command Palette.

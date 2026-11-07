@@ -1,24 +1,31 @@
 # Installation notes
 
 The [README](../README.md) contains the download links, client installation
-commands, and first-use prompts for the published 0.3.104 preview. This guide covers
+commands, and first-use prompts for the published 0.3.108 preview. This guide covers
 local repository installation, updates, and common setup problems.
 
-The standalone plugin currently requires macOS Apple Silicon and CPython 3.12.
-The separate VS Code extension's broader Python and platform checks do not
-establish compatibility for this compiled plugin. Release 0.3.104 has no Linux,
-Windows or Intel Mac compiled runtime assets. Source-development platform pins do
-not provide those builds. See the [tool and platform inventory](../BUILD.md#tools-and-integration-boundaries).
+The compiled candidate targets macOS Apple Silicon or Linux x64 with glibc >=2.35
+and CPython 3.12. Linux needs `/usr/bin/python3` for metadata plus `curl`,
+`sha256sum` and `tar`. Windows, Linux ARM64, Intel Macs and musl are unsupported.
+The execution host must have its own native entry in `runtime-lock.json`; the
+separate VS Code extension's platform checks do not establish compatibility.
+Existing v0.3.104 releases remain Darwin-only. See the
+[tool and platform inventory](../BUILD.md#tools-and-integration-boundaries).
+
+For SSH, install and execute on the model's server. The desktop OS does not select
+the runtime. A raw localhost graph URL belongs to that server; forward its port or
+use a compatible embedded panel. Real SSH-network acceptance is separate from
+local launcher and Codex tests.
 
 ## Install from a local repository
 
 The release ZIPs contain plugin files directly. Codex and Claude Code marketplace
 registration instead requires the repository's catalog and plugin directories.
-Download and extract [the 0.3.104 repository ZIP](https://github.com/tensorviz-org/tensorviz-plugins/archive/refs/tags/v0.3.104.zip)
+Download and extract [the 0.3.108 repository ZIP](https://github.com/tensorviz-org/tensorviz-plugins/archive/refs/tags/v0.3.108.zip)
 into a persistent folder, or clone the tagged repository:
 
 ```sh
-git clone --branch v0.3.104 https://github.com/tensorviz-org/tensorviz-plugins.git
+git clone --branch v0.3.108 https://github.com/tensorviz-org/tensorviz-plugins.git
 ```
 
 Then choose your client, replacing the example path with the absolute path to
@@ -72,7 +79,8 @@ T3 mobile, remote hosts, and non-Codex providers are outside this acceptance sco
 | No tensorViz tools in a chat | Check that the plugin is enabled, then start a new chat in the model project. Restart the client if needed. |
 | Duplicate tensorViz tools or the wrong host | Disable the old companion plugin or manual tensorViz MCP entry in that client's settings. Keep one host enabled. |
 | Cursor does not discover the local plugin | Confirm that `~/.cursor/plugins/local/tensorviz/.cursor-plugin/plugin.json` exists, reload the window, and check whether your organization allows local plugin imports. An installed marketplace copy takes precedence. |
-| Launcher reports that this preview supports macOS Apple Silicon | This is the expected result on Linux and other unsupported platforms. No runtime is downloaded. Use a supported Apple Silicon Mac; changing Python, copying the private Node launcher or bypassing the platform check cannot supply a missing native build. |
+| Launcher reports macOS-only support or no linux-x64 runtime | The old v0.3.104 lock is Darwin-only. Use a later catalog only after its Linux asset is published. Changing Python or bypassing checks cannot supply a missing binary. |
+| Unsupported execution host or glibc error | Use macOS Apple Silicon or Linux x64 with glibc >=2.35 and a matching runtime pin. ARM Linux, musl, Windows and Intel Mac are unsupported. |
 | Runtime download fails | Check access to GitHub Releases, then reconnect. The launcher needs the runtime URL pinned in `runtime-lock.json`. |
 | Cached runtime checksum fails | Remove only the damaged archive named in the error, then reconnect to download a fresh verified copy. Do not disable checksum verification. |
 | Python environment is rejected | Select CPython 3.12 for this compiled preview. Compatibility checks for the separate VS Code extension do not apply to this binary. |
@@ -80,7 +88,8 @@ T3 mobile, remote hosts, and non-Codex providers are outside this acceptance sco
 | Capture succeeds but no graph appears | Ask the agent to show the Model graph panel, or request the local browser graph. Display and capture are separate steps. |
 
 The verified runtime archive is cached under
-`~/Library/Caches/dev.tensorviz/runtime`. The launcher checks it on each connection
+`~/Library/Caches/dev.tensorviz/runtime` on macOS or
+`${XDG_CACHE_HOME:-$HOME/.cache}/dev.tensorviz/runtime` on Linux. The launcher checks it on each connection
 and extracts separate session files. See [runtime details](../BUILD.md).
 
 ## Update or remove
@@ -153,7 +162,6 @@ the generated release version in download links. Runtime checks and ZIP/source
 audits remain separate from documentation checks. T3's guide is included in
 BUILD.md for both installed plugins as well as the repository.
 
-
 ## 0.3.104 source and asset audit — November 7, 2026
 
 All four published assets were downloaded and checked against their public
@@ -174,7 +182,7 @@ without a model, and Model graph resource checks. These checks did not execute a
 model or verify native Mac execution or client GUI rendering. The earlier dated
 client results above remain historical.
 
-These documentation changes update the catalog checkout and its publication
-hashes. Existing release ZIPs are unchanged. Future promotion regenerates these
-files from private templates; the [release ownership note](../BUILD.md#release-ownership)
-describes the required source follow-up.
+Public PR #2 updated the catalog checkout and its publication hashes. Existing
+v0.3.104 release ZIPs are unchanged. Future releases regenerate these guides from
+private templates; the [release ownership note](../BUILD.md#release-ownership)
+describes how to preserve documentation changes in the source repository.

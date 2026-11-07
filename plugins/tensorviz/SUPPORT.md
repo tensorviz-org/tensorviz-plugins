@@ -1,9 +1,14 @@
 # Support and compatibility
 
-This compiled candidate targets macOS Apple Silicon and CPython 3.12 CPU capture.
+This compiled candidate targets macOS Apple Silicon or Linux x64 (glibc >=2.35)
+and CPython 3.12 CPU capture. Linux requires a catalog pinning a Linux asset;
+existing v0.3.104 snapshots remain Darwin-only.
 It does not require VS Code or Node.js. Explicitly selected incompatible Python
 versions produce an error; TensorViz does not silently replace that environment.
-Windows, Linux, Intel Macs, CUDA and other Python ABIs remain unverified targets.
+Windows, Linux ARM64, Intel Macs and musl are unsupported. CUDA and other Python
+ABIs remain unverified. Runtime selection follows the MCP execution host, not the
+client desktop. Local Linux evidence does not establish real SSH networking,
+Cursor/Claude Linux acceptance or new native Darwin acceptance.
 
 The integration works with clients that support its local MCP transport and
 plugin format. Directory publication is distinct from local installation, capture

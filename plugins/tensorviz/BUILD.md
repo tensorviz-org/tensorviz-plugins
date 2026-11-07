@@ -38,7 +38,7 @@ these instructions do not claim marketplace acceptance.
 
 ## Tools and integration boundaries
 
-The 0.3.104 host registers **29 MCP tools**. Clients that hide app-only tools
+The 0.3.108 host registers **29 MCP tools**. Clients that hide app-only tools
 expose **25** to the agent. Discover the installed server's tools and
 `list_models` capabilities before use.
 
@@ -73,36 +73,36 @@ launcher variables differ. T3 uses its selected Codex provider. These files do n
 establish Claude Cowork or other client compatibility or an official directory
 listing.
 
-### Published platforms
+### Compiled platform matrix
 
-The 0.3.104 release contains the common plugin ZIP, the Cursor plugin ZIP, one
-`darwin-arm64` runtime archive and its JSON lock manifest. The compiled backend
-requires CPython 3.12 on macOS Apple Silicon. There are no published Linux,
-Windows or Intel Mac runtime builds. On Linux, the public shell launcher exits
-with an unsupported-platform error before downloading anything; it cannot run
-this compiled release there.
+The 0.3.108 candidate can pin `darwin-arm64` and `linux-x64` runtime archives,
+each with its own JSON lock manifest. The backend requires CPython 3.12 with ABI
+`cpython-312-darwin` or `cpython-312-x86_64-linux-gnu` respectively. Linux requires
+glibc >=2.35; Windows, Linux ARM64, Intel Mac and musl builds are unsupported.
+No separate Node.js install or source fallback is provided.
 
-The private source's managed-Python pins include Linux x64 and Windows x64.
-Those pins describe source-development environments, not published native plugin
-assets. Copying that source launcher or changing the public lock would not supply
-the missing compiled builds. No separate Node.js install is needed for the
-published Mac runtime.
+Format-1 locks still describe one runtime. Format-2 catalogs map platforms to
+independently hashed, size-bounded HTTPS assets of the same version. The launcher
+uses `uname` on the MCP execution host, including an SSH server. It refuses absent
+platform entries before download; Python pins alone cannot supply a native asset.
+The published v0.3.104 snapshot remains Darwin-only. A source fix or documentation
+export does not publish new binaries or prove native acceptance on both platforms.
 
 ### Release ownership
 
 `PUBLICATION.json` records the public integration file hashes and the original
-runtime source revision. Documentation fixes in this checkout update those file
-hashes without changing runtime provenance, version, URLs or runtime digests.
-The published 0.3.104 ZIPs remain immutable snapshots and will retain their older
-documentation; use this checkout's catalog for these documentation fixes.
+runtime source revision. A documentation-only edit in the public checkout updates
+those file hashes without changing its runtime provenance, version, URLs or runtime digests.
+Published release ZIPs are immutable snapshots. Later public-checkout
+documentation edits do not change previously released ZIPs.
 
 The private exporter owns a closed public-file allowlist and regenerates all three
-catalogs, both client trees and the documentation on release. Public-only changes
-to these guides will be overwritten unless the corresponding
-`docs/public-plugin/README.md`, `BUILD.md` and `docs/installation.md` templates are
-updated in the source repository. That follow-up must preserve version placeholders
-and the runtime allowlist. Local verification scripts are kept outside this
-checkout so the existing release audit can still accept its exact file inventory.
+catalogs, both client trees and the documentation on release. Keep these guides
+synchronized with the source repository's `docs/public-plugin/README.md`,
+`docs/public-plugin/BUILD.md` and `docs/public-plugin/docs/installation.md` templates;
+public-only changes will otherwise be overwritten. Template updates must preserve
+version placeholders and the runtime allowlist. Keep local verification scripts
+outside the public checkout so the release audit can accept its exact file inventory.
 
 ## T3 Code
 
@@ -150,7 +150,8 @@ Use the client's plugin management to update, disable or uninstall. Installation
 does not alter global tool approval settings or replace other MCP connections.
 
 The launcher caches the verified archive under
-`~/Library/Caches/dev.tensorviz/runtime`. It extracts private session files for
+`~/Library/Caches/dev.tensorviz/runtime` on macOS or
+`${XDG_CACHE_HOME:-$HOME/.cache}/dev.tensorviz/runtime` on Linux. It extracts private session files for
 each connection and removes them when that connection ends. A checksum mismatch
 stops startup; remove the reported damaged archive and reconnect to download it
 again. No source fallback is available. Updates use a new pinned archive; an older
