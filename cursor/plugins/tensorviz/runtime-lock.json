@@ -1,24 +1,24 @@
 {
   "formatVersion": 2,
-  "version": "0.3.108",
+  "version": "0.3.109",
   "runtimes": {
     "darwin-arm64": {
       "formatVersion": 1,
-      "version": "0.3.108",
+      "version": "0.3.109",
       "platform": "darwin-arm64",
       "pythonABI": "cpython-312-darwin",
-      "sha256": "4ece7525e026f63676ec9c4bf30fc297eca194d81161ffe13da265aad1f8f5a2",
-      "bytes": 36344530,
-      "url": "https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.3.108/tensorviz-runtime-0.3.108-darwin-arm64.tar.gz"
+      "sha256": "9b722afdefac39bdd9e7a48fac72f1c3ccda478632ebe697544d997528330939",
+      "bytes": 36358950,
+      "url": "https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.3.109/tensorviz-runtime-0.3.109-darwin-arm64.tar.gz"
     },
     "linux-x64": {
       "formatVersion": 1,
-      "version": "0.3.108",
+      "version": "0.3.109",
       "platform": "linux-x64",
       "pythonABI": "cpython-312-x86_64-linux-gnu",
-      "sha256": "a84e7b8819e08d3de8c1c06cbcca47f83873a44a19c3c34c6d44e65b924abb07",
-      "bytes": 43500078,
-      "url": "https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.3.108/tensorviz-runtime-0.3.108-linux-x64.tar.gz"
+      "sha256": "b155cbaa9d22fc874c9ca96e2144465634835db502935073a8e0e0afb7a3d60d",
+      "bytes": 43528213,
+      "url": "https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.3.109/tensorviz-runtime-0.3.109-linux-x64.tar.gz"
     }
   }
 }

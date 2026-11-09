@@ -1,7 +1,7 @@
 # Installation notes
 
 The [README](../README.md) contains the download links, client installation
-commands, and first-use prompts for the published 0.3.108 preview. This guide covers
+commands, and first-use prompts for the published 0.3.109 preview. This guide covers
 local repository installation, updates, and common setup problems.
 
 The compiled candidate targets macOS Apple Silicon or Linux x64 with glibc >=2.35
@@ -21,11 +21,11 @@ local launcher and Codex tests.
 
 The release ZIPs contain plugin files directly. Codex and Claude Code marketplace
 registration instead requires the repository's catalog and plugin directories.
-Download and extract [the 0.3.108 repository ZIP](https://github.com/tensorviz-org/tensorviz-plugins/archive/refs/tags/v0.3.108.zip)
+Download and extract [the 0.3.109 repository ZIP](https://github.com/tensorviz-org/tensorviz-plugins/archive/refs/tags/v0.3.109.zip)
 into a persistent folder, or clone the tagged repository:
 
 ```sh
-git clone --branch v0.3.108 https://github.com/tensorviz-org/tensorviz-plugins.git
+git clone --branch v0.3.109 https://github.com/tensorviz-org/tensorviz-plugins.git
 ```
 
 Then choose your client, replacing the example path with the absolute path to

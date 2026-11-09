@@ -38,7 +38,7 @@ these instructions do not claim marketplace acceptance.
 
 ## Tools and integration boundaries
 
-The 0.3.108 host registers **29 MCP tools**. Clients that hide app-only tools
+The 0.3.109 host registers **29 MCP tools**. Clients that hide app-only tools
 expose **25** to the agent. Discover the installed server's tools and
 `list_models` capabilities before use.
 
@@ -75,7 +75,7 @@ listing.
 
 ### Compiled platform matrix
 
-The 0.3.108 candidate can pin `darwin-arm64` and `linux-x64` runtime archives,
+The 0.3.109 candidate can pin `darwin-arm64` and `linux-x64` runtime archives,
 each with its own JSON lock manifest. The backend requires CPython 3.12 with ABI
 `cpython-312-darwin` or `cpython-312-x86_64-linux-gnu` respectively. Linux requires
 glibc >=2.35; Windows, Linux ARM64, Intel Mac and musl builds are unsupported.
