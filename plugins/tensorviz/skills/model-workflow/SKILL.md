@@ -65,7 +65,8 @@ and use that viewId for `get_selection` and `focus_view`. Do not call the panel'
 app-only transport tools. The panel opening alone does not prove rendering.
 
 For clients without MCP Apps, use `open_graph_view`: open the returned private
-URL once in a browser and poll its handoff for the exact display receipt. Display
+URL once in a browser and poll its handoff for the exact display receipt. The
+link expires after two minutes and is consumed on first bootstrap. Display
 failure is separate from capture failure. Keep private links out of logs and
 external messages.
 

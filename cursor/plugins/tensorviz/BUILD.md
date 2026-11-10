@@ -1,31 +1,35 @@
 # Install the integration
 
-This repository contains the integration only. It cannot rebuild the private
-runtime, and users do not need a source checkout or build tools to use it.
+This page is the compiled plugin archive's install guide. That archive cannot
+rebuild the runtime; the launcher downloads the pinned artifact, and users do
+not need a source checkout or build tools to use it. The public distribution repository contains only the audited integration,
+not the private source history.
 `runtime-lock.json` pins the exact platform, CPython ABI, URL and SHA-256 digest.
 The candidate's download URL must be published before installation works outside
 the release test environment.
 
-For a local evaluation checkout, Claude Code supports:
+Claude Code supports the existing public catalog:
 
 ```sh
-claude plugin marketplace add /absolute/path/to/integration
+claude plugin marketplace add tensorviz-org/tensorviz-plugins
 claude plugin install tensorviz@tensorviz-standalone --scope user
 ```
 
-For Codex's local plugin flow:
+For Codex:
 
 ```sh
-codex plugin marketplace add /absolute/path/to/integration
+codex plugin marketplace add tensorviz-org/tensorviz-plugins
 codex plugin add tensorviz@tensorviz-standalone
 ```
 
-For published releases, replace the local checkout path in the marketplace command
-with `tensorviz-org/tensorviz-plugins`. The compiled runtime downloads on the first
+For a local catalog, extract `tensorviz-catalog-0.3.110.zip` into a persistent
+directory and use that absolute path instead. Never register the private source
+repository as a marketplace. The compiled runtime downloads on the first
 connection. Updating the plugin selects its new pinned runtime; an existing chat
 keeps its session's resources. Start a new chat to use the new version.
 
-For Claude, `claude plugin update tensorviz@tensorviz-standalone` refreshes the
+For local ZIP installs, replace the catalog with a complete new catalog ZIP,
+keeping the prior complete directory for rollback. For Claude, `claude plugin update tensorviz@tensorviz-standalone` refreshes the
 marketplace and installs a changed version. Automatic updates for custom Claude
 marketplaces are off by default; the user controls that setting. For Codex, refresh
 the marketplace through `codex plugin marketplace upgrade tensorviz-standalone`
@@ -38,7 +42,7 @@ these instructions do not claim marketplace acceptance.
 
 ## Tools and integration boundaries
 
-The 0.3.109 host registers **29 MCP tools**. Clients that hide app-only tools
+The 0.3.110 host registers **29 MCP tools**. Clients that hide app-only tools
 expose **25** to the agent. Discover the installed server's tools and
 `list_models` capabilities before use.
 
@@ -60,7 +64,7 @@ a native editor or analytics.
 
 Both catalog trees include the canonical `model-workflow` skill from the merged
 plugin source. That source has no separate plugin slash-command directory.
-Private Canvas agent tools and repository-development skills are not part of this
+Canvas agent tools and repository-development skills are not part of this
 integration. The source-development Node launcher, installers and permission
 helpers are also intentionally excluded: they require a complete source bundle
 and are not a fallback for the compiled public runtime. Installation and updates
@@ -75,7 +79,7 @@ listing.
 
 ### Compiled platform matrix
 
-The 0.3.109 candidate can pin `darwin-arm64` and `linux-x64` runtime archives,
+The 0.3.110 candidate can pin `darwin-arm64` and `linux-x64` runtime archives,
 each with its own JSON lock manifest. The backend requires CPython 3.12 with ABI
 `cpython-312-darwin` or `cpython-312-x86_64-linux-gnu` respectively. Linux requires
 glibc >=2.35; Windows, Linux ARM64, Intel Mac and musl builds are unsupported.
@@ -90,58 +94,20 @@ export does not publish new binaries or prove native acceptance on both platform
 
 ### Release ownership
 
-`PUBLICATION.json` records the public integration file hashes and the original
-runtime source revision. A documentation-only edit in the public checkout updates
-those file hashes without changing its runtime provenance, version, URLs or runtime digests.
-Published release ZIPs are immutable snapshots. Later public-checkout
-documentation edits do not change previously released ZIPs.
-
-The private exporter owns a closed public-file allowlist and regenerates all three
-catalogs, both client trees and the documentation on release. Keep these guides
-synchronized with the source repository's `docs/public-plugin/README.md`,
-`docs/public-plugin/BUILD.md` and `docs/public-plugin/docs/installation.md` templates;
-public-only changes will otherwise be overwritten. Template updates must preserve
-version placeholders and the runtime allowlist. Keep local verification scripts
-outside the public checkout so the release audit can accept its exact file inventory.
+The local exporter reads `plugin/packaging/public/` and preserves version
+placeholders in these source templates. `PUBLICATION.json` records the exact
+integration inventory, hashes and runtime provenance. Both client locks must
+match the publication lock. The source repository native release workflow publishes
+runtime archives, client ZIPs, and the catalog ZIP under `v0.3.110`,
+in the public distribution repository. Tags identify audited export commits;
+PUBLICATION.json binds each export to its reviewed private source SHA. It never
+replaces source main or copies private Git history.
+Local export alone does not publish an asset.
 
 ## T3 Code
 
-T3 Code uses the TensorViz plugin installed in its selected Codex provider's
-configuration. There is no separate T3 marketplace or TensorViz server to add.
-Use a Codex thread for the interactive MCP App; T3 currently renders other
-providers' MCP calls as ordinary tool results.
-The embedded graph was tested with T3
-`0.0.46-nightly.20261012.3035`. Stable `0.0.45` captures and inspects models but
-does not render the app; use the browser fallback there. TensorViz 0.3.20 includes these compatibility changes.
-Use 0.3.20 or newer for this installation flow.
-
-1. In T3 **Settings → Providers → Codex**, check the binary and **CODEX_HOME path**
-   for the selected environment. Install the Codex plugin using the commands above
-   with that binary and home. A blank home uses Codex's normal home. If TensorViz
-   is already enabled there, reuse it rather than adding a second MCP connection.
-2. Start a new Codex thread in the model project, or use **Restart agent session**
-   after installing/updating the plugin. Installation in a different Codex profile
-   does not configure this T3 provider.
-3. Ask: “Use TensorViz to capture model.py class MyModel with its saved inputs,
-   then call open_graph_panel to show the interactive Model graph in this chat.”
-   Supply your actual model file/class and resolve any missing Python or input setup.
-4. The graph appears inline and can expand to fullscreen. Polling, selection and
-   reading captured details use a read-only tool. Refresh/setup actions retain
-   T3's tool approval and TensorViz's existing execution permission.
-
-The panel needs the originating agent session to remain available. If T3 says
-it is unavailable, send a message in that thread and reopen the panel. If no app
-appears, confirm the thread uses Codex and a current T3 version, then request
-`open_graph_view` for the local browser fallback.
-
-Install on the machine where T3 runs Codex and the model. A localhost browser
-link points to that machine; it is not automatically reachable from a phone or
-another computer. The native runtime's platform limits still apply. T3 mobile,
-remote environments and other providers require separate acceptance checks.
-
-References: [T3 MCP Apps](https://github.com/pingdotgg/t3code/blob/main/docs/user/html-renders.md),
-[provider homes](https://github.com/pingdotgg/t3code/blob/main/docs/user/providers-codex.md),
-[restarting agent sessions](https://github.com/pingdotgg/t3code/blob/main/docs/user/composer.md#commands-and-skills).
+T3 Code is not a supported install target in this source tree. Use
+[the installation guide](docs/installation.md) for Claude Code, Codex, and Cursor.
 
 ## Updates and removal
 

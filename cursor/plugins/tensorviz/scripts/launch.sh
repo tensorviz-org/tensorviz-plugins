@@ -103,6 +103,11 @@ fi
 session=$(mktemp -d "${TMPDIR:-/tmp}/tensorviz-native.XXXXXX")
 /usr/bin/tar -xzf "$archive" -C "$session"
 [ -x "$session/tensorviz-host" ] || fail 'Runtime archive has no executable host.'
+# Inductor can create model-derived cache files even during model inspection.
+# Keep this cache in our private session, not the shared temp directory or an
+# inherited caller cache. Preserve TMPDIR so cross-host locks still coordinate.
+TORCHINDUCTOR_CACHE_DIR="$session/.torchinductor"
+export TORCHINDUCTOR_CACHE_DIR
 # Noninteractive sh gives asynchronous jobs /dev/null on fd 0; save MCP stdin first.
 exec 3<&0
 "$session/tensorviz-host" "$@" <&3 3<&- &

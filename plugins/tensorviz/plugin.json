@@ -1,13 +1,15 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "tensorviz",
-  "version": "0.3.109",
+  "version": "0.3.110",
   "description": "Explore local PyTorch models with tensorViz.",
   "author": {
     "name": "TensorViz",
     "url": "https://tensorviz.dev"
   },
   "license": "MIT",
+  "homepage": "https://tensorviz.dev",
+  "repository": "https://github.com/tensorviz-org/tensorviz-plugins",
   "extensions": {
     "com.openai": {
       "interface": {
@@ -31,7 +33,5 @@
         "termsOfServiceURL": "https://github.com/tensorviz-org/tensorviz-plugins/blob/main/TERMS.md"
       }
     }
-  },
-  "homepage": "https://tensorviz.dev",
-  "repository": "https://github.com/tensorviz-org/tensorviz-plugins"
+  }
 }

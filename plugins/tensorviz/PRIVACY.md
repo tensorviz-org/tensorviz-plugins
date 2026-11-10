@@ -14,6 +14,13 @@ or data unless those policies permit it.
 The plugin does not operate a TensorViz cloud ingestion service, and its browser
 and panel builds exclude TensorViz's hosted authentication and analytics modules.
 The browser viewer uses a local connection. Keep private viewer links private.
+
+Nothing reaches tensorviz.dev unless you click **Publish** in the graph. Then the
+plugin signs you in with Google through tensorviz.dev and uploads that graph file,
+including its detached capture, to your account as private. The website records your
+Google account's name and photo as its author; tensorviz.dev's own privacy policy applies
+to it. The plugin keeps only a refresh token, in a private `website/session.json` in its
+data folder. Run `scripts/launch.sh --sign-out` to delete it.
 The tldraw renderer has separate license-validation behavior; trial licenses can
 send license-usage information to tldraw. See
 [tldraw's licensing and data collection documentation](https://tldraw.dev/community/license).

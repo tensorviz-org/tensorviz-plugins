@@ -1,11 +1,13 @@
 {
   "name": "tensorviz",
-  "version": "0.3.109",
+  "version": "0.3.110",
   "description": "Explore local PyTorch models with tensorViz.",
   "author": {
     "name": "TensorViz",
     "url": "https://tensorviz.dev"
   },
+  "homepage": "https://tensorviz.dev",
+  "repository": "https://github.com/tensorviz-org/tensorviz-plugins",
   "skills": "./skills/",
   "interface": {
     "displayName": "tensorViz",
@@ -27,7 +29,5 @@
     "privacyPolicyURL": "https://github.com/tensorviz-org/tensorviz-plugins/blob/main/PRIVACY.md",
     "termsOfServiceURL": "https://github.com/tensorviz-org/tensorviz-plugins/blob/main/TERMS.md"
   },
-  "mcpServers": "./.mcp.json",
-  "homepage": "https://tensorviz.dev",
-  "repository": "https://github.com/tensorviz-org/tensorviz-plugins"
+  "mcpServers": "./.mcp.json"
 }

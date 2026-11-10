@@ -1,4 +1,18 @@
+> Compiled release archive template. Workflows run in `tensorviz-org/tensorviz`;
+> public releases and the installation catalog stay in `tensorviz-org/tensorviz-plugins`.
+
 # tensorViz for coding agents
+
+## Contents
+
+- [Requirements](#requirements)
+- [Download](#download)
+- [Install in Codex](#install-in-codex)
+- [Install in Claude Code](#install-in-claude-code)
+- [Install in Cursor](#install-in-cursor)
+- [Install in T3 Code](#install-in-t3-code)
+- [Use tensorViz](#use-tensorviz)
+- [External services and local data](#external-services-and-local-data)
 
 tensorViz lets your coding agent show a local PyTorch model as an interactive
 graph. See how tensors move between layers, inspect their measured shapes, and
@@ -33,30 +47,32 @@ from that host; SSH environment variables do not select a desktop runtime.
 ## Download
 
 **Codex and Claude Code users can install directly** with the commands below.
-Those commands download the plugin for you; no manual download is needed.
+A complete catalog ZIP is also available for local marketplace installation.
 
 For a manual download, open the
 [Releases page](https://github.com/tensorviz-org/tensorviz-plugins/releases),
 choose a version, expand **Assets**, and download the ZIP for your app.
-The links below are for **[preview 0.3.109](https://github.com/tensorviz-org/tensorviz-plugins/releases/tag/v0.3.109)**:
+The links below are for **[preview 0.3.110](https://github.com/tensorviz-org/tensorviz-plugins/releases/tag/v0.3.110)**:
 
 | Client | Plugin download | Installation |
 | --- | --- | --- |
-| Codex | [tensorviz-0.3.109.zip](https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.3.109/tensorviz-0.3.109.zip) | [Codex instructions](#install-in-codex) |
-| Claude Code | [tensorviz-0.3.109.zip](https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.3.109/tensorviz-0.3.109.zip) | [Claude Code instructions](#install-in-claude-code) |
-| Cursor | [tensorviz-cursor-0.3.109.zip](https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.3.109/tensorviz-cursor-0.3.109.zip) | [Cursor instructions](#install-in-cursor) |
+| Codex | [tensorviz-catalog-0.3.110.zip](https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.3.110/tensorviz-catalog-0.3.110.zip) | [Codex instructions](#install-in-codex) |
+| Claude Code | [tensorviz-catalog-0.3.110.zip](https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.3.110/tensorviz-catalog-0.3.110.zip) | [Claude Code instructions](#install-in-claude-code) |
+| Cursor | [tensorviz-cursor-0.3.110.zip](https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.3.110/tensorviz-cursor-0.3.110.zip) | [Cursor instructions](#install-in-cursor) |
 
-The ZIPs contain a single plugin, not a marketplace catalog (the list of plugins
-your app can install). Do not pass an extracted plugin ZIP to a
-`plugin marketplace add` command. To install from a local repository download,
-see [local installation](docs/installation.md#install-from-a-local-repository).
+The catalog ZIP contains the local marketplaces and both client directories.
+Extract it into a persistent directory, for example `~/tensorviz-catalog-0.3.110`.
+The separate `tensorviz-0.3.110.zip` and Cursor ZIP contain single plugins,
+not catalogs; do not pass those to `plugin marketplace add`. See
+[local installation](docs/installation.md#install-from-a-local-repository).
 
 The compiled runtime downloads automatically on first connection. You do not
 need to download or unpack the separate `tensorviz-runtime-…tar.gz` release asset.
 The launcher checks its pinned SHA-256 digest before use and caches the verified
 archive for later connections. No source checkout, build tools, Node.js or VS Code
-installation is needed. This repository contains the integration only; the core
-source is not included. Browser-delivered JavaScript remains inspectable, and
+installation is needed to use the compiled plugin. The public distribution
+repository and archives contain only the audited launcher and integration;
+the core source and its Git history are excluded. Browser-delivered JavaScript remains inspectable, and
 binaries can be reverse engineered. A GitHub release does not imply an official
 client marketplace listing.
 
@@ -96,7 +112,7 @@ disable that connection before using this plugin. See the
 ## Install in Claude Code
 
 Install or update [Claude Code](https://code.claude.com/docs/en/setup) first.
-Open a terminal on the MCP execution host and run these commands one at a time:
+Open a terminal on the MCP execution host, then run:
 
 ```sh
 claude plugin marketplace add tensorviz-org/tensorviz-plugins
@@ -127,13 +143,13 @@ Use the **Cursor ZIP** linked above. Its launcher configuration is different
 from the Codex/Claude package. Install or update [Cursor](https://cursor.com/downloads)
 first.
 
-1. Download `tensorviz-cursor-0.3.109.zip` to your Downloads folder.
-2. Keep the ZIP file in Downloads. Open a terminal and, for a
+1. Download `tensorviz-cursor-0.3.110.zip` to your Downloads folder.
+2. Keep the ZIP file in Downloads. Open the macOS **Terminal** app and, for a
    fresh installation, run:
 
    ```sh
    mkdir -p "$HOME/.cursor/plugins/local/tensorviz"
-   unzip "$HOME/Downloads/tensorviz-cursor-0.3.109.zip" \
+   unzip "$HOME/Downloads/tensorviz-cursor-0.3.110.zip" \
      -d "$HOME/.cursor/plugins/local/tensorviz"
    ```
 
@@ -142,7 +158,7 @@ first.
    tensorViz installed, follow the [update instructions](docs/installation.md#update-or-remove)
    instead of extracting over its existing files.
    These commands create Cursor's local plugin folder and unpack tensorViz into
-   it. If you downloaded a different version, replace `0.3.109` in the command
+   it. If you downloaded a different version, replace `0.3.110` in the command
    with that version.
 3. Restart Cursor or press **Command + Shift + P** and run
    **Developer: Reload Window** from the Command Palette.
