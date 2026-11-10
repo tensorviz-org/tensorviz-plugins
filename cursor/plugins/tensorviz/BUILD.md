@@ -98,8 +98,8 @@ documentation edits do not change previously released ZIPs.
 
 The private exporter owns a closed public-file allowlist and regenerates all three
 catalogs, both client trees and the documentation on release. Keep these guides
-synchronized with the source repository's `docs/public-plugin/README.md`,
-`docs/public-plugin/BUILD.md` and `docs/public-plugin/docs/installation.md` templates;
+synchronized with the source repository's `plugin/packaging/public/README.md`,
+`plugin/packaging/public/BUILD.md` and `plugin/packaging/public/docs/installation.md` templates;
 public-only changes will otherwise be overwritten. Template updates must preserve
 version placeholders and the runtime allowlist. Keep local verification scripts
 outside the public checkout so the release audit can accept its exact file inventory.
@@ -156,3 +156,22 @@ each connection and removes them when that connection ends. A checksum mismatch
 stops startup; remove the reported damaged archive and reconnect to download it
 again. No source fallback is available. Updates use a new pinned archive; an older
 integration and its matching archive can be reinstalled for rollback.
+
+## Isolated runtime caches
+
+This option is available in new source candidates. Published 0.3.109 does not
+read `TENSORVIZ_RUNTIME_CACHE_DIR`; changing it there does not isolate the cache.
+
+Set `TENSORVIZ_RUNTIME_CACHE_DIR` to an absolute task-owned directory in the MCP
+server environment to keep downloaded runtime archives separate from the normal
+user cache. This does not change the client profile or Python environment. The
+default cache locations remain unchanged when the variable is absent. Relative
+paths and symbolic-link cache directories are rejected; size, SHA-256 and HTTPS
+checks still apply on every launch. A damaged-cache error identifies the exact
+archive to remove before reconnecting.
+
+Client profiles and TensorViz state are separate: use the client's supported
+profile controls and `TENSORVIZ_DATA_DIR` for isolated permission, service and
+workspace state. Do not redirect the user's home, copy credentials or assume a
+second desktop instance uses an isolated profile. Verify the actual app process
+and profile before changing plugin settings.

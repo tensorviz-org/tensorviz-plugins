@@ -186,3 +186,49 @@ Public PR #2 updated the catalog checkout and its publication hashes. Existing
 v0.3.104 release ZIPs are unchanged. Future releases regenerate these guides from
 private templates; the [release ownership note](../BUILD.md#release-ownership)
 describes how to preserve documentation changes in the source repository.
+
+## Isolated runtime caches
+
+This option is available in new source candidates. Published 0.3.109 does not
+read `TENSORVIZ_RUNTIME_CACHE_DIR`; changing it there does not isolate the cache.
+
+Set `TENSORVIZ_RUNTIME_CACHE_DIR` to an absolute task-owned directory in the MCP
+server environment to keep downloaded runtime archives separate from the normal
+user cache. This does not change the client profile or Python environment. The
+default cache locations remain unchanged when the variable is absent. Relative
+paths and symbolic-link cache directories are rejected; size, SHA-256 and HTTPS
+checks still apply on every launch. A damaged-cache error identifies the exact
+archive to remove before reconnecting.
+
+Client profiles and TensorViz state are separate: use the client's supported
+profile controls and `TENSORVIZ_DATA_DIR` for isolated permission, service and
+workspace state. Do not redirect the user's home, copy credentials or assume a
+second desktop instance uses an isolated profile. Verify the actual app process
+and profile before changing plugin settings.
+
+## Slow first runtime download
+
+A first connection downloads a size-bounded, SHA-256-pinned archive before the
+MCP server starts. A client's startup deadline can expire on a slow connection.
+Restarting alone may repeat the download if the client stopped it before completion.
+
+For a new candidate containing the prefetch command, run the installed plugin's
+launcher once in a terminal, using its actual installation path:
+
+```sh
+sh /absolute/path/to/plugin/scripts/launch.sh --prepare-runtime
+```
+
+For an extracted release ZIP, run `sh ./scripts/launch.sh --prepare-runtime`
+from its root. The command verifies and caches only the pinned archive; it does
+not extract or execute the runtime, start Python, run a model, or change client
+configuration. Reconnect afterward. Use the same `TENSORVIZ_RUNTIME_CACHE_DIR`
+for prefetch and the MCP server when isolating the cache.
+
+Published 0.3.109 does not have `--prepare-runtime`. For Claude Code, an existing
+release can instead be started with a process-only timeout for its first connection:
+`MCP_TIMEOUT=360000 claude`. This does not edit settings. Do not add
+`startup_timeout_sec` to the portable `mcp.json`: Codex CLI 0.165.0 rejects that
+field and skips the server. A config.toml server setting and a plugin manifest
+have different schemas. Prefetch reduces the cold-download risk; it is not a
+guarantee that every host or network will meet its startup deadline.
