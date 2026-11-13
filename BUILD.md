@@ -22,7 +22,7 @@ codex plugin marketplace add tensorviz-org/tensorviz-plugins
 codex plugin add tensorviz@tensorviz-standalone
 ```
 
-For a local catalog, extract `tensorviz-catalog-0.3.110.zip` into a persistent
+For a local catalog, extract `tensorviz-catalog-0.1.43.zip` into a persistent
 directory and use that absolute path instead. Never register the private source
 repository as a marketplace. The compiled runtime downloads on the first
 connection. Updating the plugin selects its new pinned runtime; an existing chat
@@ -42,7 +42,7 @@ these instructions do not claim marketplace acceptance.
 
 ## Tools and integration boundaries
 
-The 0.3.110 host registers **29 MCP tools**. Clients that hide app-only tools
+The 0.1.43 host registers **29 MCP tools**. Clients that hide app-only tools
 expose **25** to the agent. Discover the installed server's tools and
 `list_models` capabilities before use.
 
@@ -79,7 +79,7 @@ listing.
 
 ### Compiled platform matrix
 
-The 0.3.110 candidate can pin `darwin-arm64` and `linux-x64` runtime archives,
+The 0.1.43 candidate can pin `darwin-arm64` and `linux-x64` runtime archives,
 each with its own JSON lock manifest. The backend requires CPython 3.12 with ABI
 `cpython-312-darwin` or `cpython-312-x86_64-linux-gnu` respectively. Linux requires
 glibc >=2.35; Windows, Linux ARM64, Intel Mac and musl builds are unsupported.
@@ -98,7 +98,7 @@ The local exporter reads `plugin/packaging/public/` and preserves version
 placeholders in these source templates. `PUBLICATION.json` records the exact
 integration inventory, hashes and runtime provenance. Both client locks must
 match the publication lock. The source repository native release workflow publishes
-runtime archives, client ZIPs, and the catalog ZIP under `v0.3.110`,
+runtime archives, client ZIPs, and the catalog ZIP under `v0.1.43`,
 in the public distribution repository. Tags identify audited export commits;
 PUBLICATION.json binds each export to its reviewed private source SHA. It never
 replaces source main or copies private Git history.
@@ -122,3 +122,22 @@ each connection and removes them when that connection ends. A checksum mismatch
 stops startup; remove the reported damaged archive and reconnect to download it
 again. No source fallback is available. Updates use a new pinned archive; an older
 integration and its matching archive can be reinstalled for rollback.
+
+## Isolated runtime caches
+
+This option is available in new source candidates. Published 0.3.109 does not
+read `TENSORVIZ_RUNTIME_CACHE_DIR`; changing it there does not isolate the cache.
+
+Set `TENSORVIZ_RUNTIME_CACHE_DIR` to an absolute task-owned directory in the MCP
+server environment to keep downloaded runtime archives separate from the normal
+user cache. This does not change the client profile or Python environment. The
+default cache locations remain unchanged when the variable is absent. Relative
+paths and symbolic-link cache directories are rejected; size, SHA-256 and HTTPS
+checks still apply on every launch. A damaged-cache error identifies the exact
+archive to remove before reconnecting.
+
+Client profiles and TensorViz state are separate: use the client's supported
+profile controls and `TENSORVIZ_DATA_DIR` for isolated permission, service and
+workspace state. Do not redirect the user's home, copy credentials or assume a
+second desktop instance uses an isolated profile. Verify the actual app process
+and profile before changing plugin settings.

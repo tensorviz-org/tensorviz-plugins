@@ -3,6 +3,11 @@
 set -eu
 umask 077
 fail() { echo "TensorViz: $*" >&2; exit 1; }
+prepare=false
+if [ "${1:-}" = --prepare-runtime ]; then
+  [ "$#" -eq 1 ] || fail '--prepare-runtime does not accept additional arguments.'
+  prepare=true
+fi
 plugin=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 host="$(uname -s)-$(uname -m)"
 case "$host" in
@@ -61,11 +66,17 @@ case "$bytes" in *[!0-9]*|'') fail 'Invalid runtime size.';; esac
 case "$url" in https://*) ;; *) fail 'Runtime downloads require HTTPS.';; esac
 case "$url" in *'@'*|*'#'*|*[[:space:]]*) fail 'Invalid runtime URL.';; esac
 if [ "$platform" = darwin-arm64 ]; then
-  cache="${HOME:?}/Library/Caches/dev.tensorviz/runtime"
   checksum() { /usr/bin/shasum -a 256 "$1" | cut -d ' ' -f 1; }
 else
-  cache="${XDG_CACHE_HOME:-${HOME:?}/.cache}/dev.tensorviz/runtime"
   checksum() { sha256sum "$1" | cut -d ' ' -f 1; }
+fi
+if [ -n "${TENSORVIZ_RUNTIME_CACHE_DIR:-}" ]; then
+  case "$TENSORVIZ_RUNTIME_CACHE_DIR" in /*) ;; *) fail 'TENSORVIZ_RUNTIME_CACHE_DIR must be an absolute path.';; esac
+  cache=$TENSORVIZ_RUNTIME_CACHE_DIR
+elif [ "$platform" = darwin-arm64 ]; then
+  cache="${HOME:?}/Library/Caches/dev.tensorviz/runtime"
+else
+  cache="${XDG_CACHE_HOME:-${HOME:?}/.cache}/dev.tensorviz/runtime"
 fi
 mkdir -p "$cache"
 [ ! -L "$cache" ] || fail 'The runtime cache must not be a symbolic link.'
@@ -96,9 +107,13 @@ if [ ! -f "$archive" ]; then
   download=''
 fi
 [ ! -L "$archive" ] || fail 'The cached archive must not be a symbolic link.'
-[ "$(wc -c < "$archive" | tr -d '[:space:]')" = "$bytes" ] || fail 'Cached runtime is damaged (size mismatch). Nothing was executed.'
+[ "$(wc -c < "$archive" | tr -d '[:space:]')" = "$bytes" ] || fail "Cached runtime is damaged (size mismatch). Remove $archive and reconnect. Nothing was executed."
 [ "$(checksum "$archive")" = "$sha" ] \
   || fail "Cached runtime is damaged. Remove $archive and reconnect. Nothing was executed."
+if [ "$prepare" = true ]; then
+  echo "TensorViz: runtime $version verified and cached; reconnect the plugin." >&2
+  exit 0
+fi
 # Extract anew from the verified archive, so modified unpacked caches cannot run.
 session=$(mktemp -d "${TMPDIR:-/tmp}/tensorviz-native.XXXXXX")
 /usr/bin/tar -xzf "$archive" -C "$session"
