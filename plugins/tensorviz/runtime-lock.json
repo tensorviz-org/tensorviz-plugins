@@ -1,24 +1,24 @@
 {
   "formatVersion": 2,
-  "version": "0.1.43",
+  "version": "0.1.44",
   "runtimes": {
     "darwin-arm64": {
       "formatVersion": 1,
-      "version": "0.1.43",
+      "version": "0.1.44",
       "platform": "darwin-arm64",
       "pythonABI": "cpython-312-darwin",
-      "sha256": "011182e5afe0b0ea164ad683e745d53c5c4a277c2c832f189afcde3fd269c874",
-      "bytes": 36284014,
-      "url": "https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.1.43/tensorviz-runtime-0.1.43-darwin-arm64.tar.gz"
+      "sha256": "78a201724c5ebe2eaaf494826f29799a2c5ac2b4ef3b86bf20d4d75748aef450",
+      "bytes": 36282531,
+      "url": "https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.1.44/tensorviz-runtime-0.1.44-darwin-arm64.tar.gz"
     },
     "linux-x64": {
       "formatVersion": 1,
-      "version": "0.1.43",
+      "version": "0.1.44",
       "platform": "linux-x64",
       "pythonABI": "cpython-312-x86_64-linux-gnu",
-      "sha256": "b8fcd1b666b89e1ce635671952e4eaad0cac15c000b80b5a139d69442f1b0ee3",
-      "bytes": 43461051,
-      "url": "https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.1.43/tensorviz-runtime-0.1.43-linux-x64.tar.gz"
+      "sha256": "78badf11ae2be88648c8459836cc95dd5fa20a1ee6481d81046de903640c06d2",
+      "bytes": 43516066,
+      "url": "https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.1.44/tensorviz-runtime-0.1.44-linux-x64.tar.gz"
     }
   }
 }

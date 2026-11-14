@@ -28,13 +28,13 @@ if [ "$platform" = darwin-arm64 ]; then
   field() { /usr/bin/plutil -extract "$prefix$1" raw -o - "$lock"; }
   lock_version=$(/usr/bin/plutil -extract version raw -o - "$lock")
 else
-  libc=$(/usr/bin/getconf GNU_LIBC_VERSION 2>/dev/null) || fail 'Linux runtime requires glibc 2.35 or newer.'
-  case "$libc" in 'glibc '*) ;; *) fail 'Linux runtime requires glibc 2.35 or newer.';; esac
+  libc=$(/usr/bin/getconf GNU_LIBC_VERSION 2>/dev/null) || fail 'Linux runtime requires glibc 2.31 or newer.'
+  case "$libc" in 'glibc '*) ;; *) fail 'Linux runtime requires glibc 2.31 or newer.';; esac
   libc_version=${libc#glibc }
   major=${libc_version%%.*}
   minor=${libc_version#*.}
   case "$major:$minor" in *[!0-9:]*|:*) fail 'Invalid glibc version.';; esac
-  [ "$major" -gt 2 ] || { [ "$major" -eq 2 ] && [ "$minor" -ge 35 ]; } || fail 'Linux runtime requires glibc 2.35 or newer.'
+  [ "$major" -gt 2 ] || { [ "$major" -eq 2 ] && [ "$minor" -ge 31 ]; } || fail 'Linux runtime requires glibc 2.31 or newer.'
   [ -x /usr/bin/python3 ] || fail 'Linux launcher metadata requires /usr/bin/python3.'
   field() {
     /usr/bin/python3 -I -B -c '

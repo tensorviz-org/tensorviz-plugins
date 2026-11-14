@@ -10,10 +10,10 @@
 - [Release export preservation — October 13, 2026](#release-export-preservation-october-13-2026)
 
 The [README](../README.md) contains the download links, client installation
-commands, and first-use prompts for the published 0.1.43 preview. This guide covers
+commands, and first-use prompts for the published 0.1.44 preview. This guide covers
 local repository installation, updates, and common setup problems.
 
-The compiled candidate targets macOS Apple Silicon or Linux x64 with glibc >=2.35
+The compiled candidate targets macOS Apple Silicon or Linux x64 with glibc >=2.31
 and CPython 3.12. Linux needs `/usr/bin/python3` for metadata plus `curl`,
 `sha256sum` and `tar`. Windows, Linux ARM64, Intel Macs and musl are unsupported.
 The execution host must have its own native entry in `runtime-lock.json`; the
@@ -28,8 +28,8 @@ local launcher and Codex tests.
 
 ## Install from a local repository
 
-Download and extract [the 0.1.43 catalog ZIP](https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.1.43/tensorviz-catalog-0.1.43.zip)
-into a persistent folder, for example `~/tensorviz-catalog-0.1.43`.
+Download and extract [the 0.1.44 catalog ZIP](https://github.com/tensorviz-org/tensorviz-plugins/releases/download/v0.1.44/tensorviz-catalog-0.1.44.zip)
+into a persistent folder, for example `~/tensorviz-catalog-0.1.44`.
 It contains `.agents/plugins/marketplace.json`, `.claude-plugin/marketplace.json`,
 and the plugin directories with pinned runtime locks. The separate per-client
 plugin ZIPs do not contain the marketplace catalogs.
@@ -42,12 +42,12 @@ Then choose your client, replacing the example path with the absolute path to
 the extracted catalog:
 
 ```sh
-codex plugin marketplace add /absolute/path/to/tensorviz-catalog-0.1.43
+codex plugin marketplace add /absolute/path/to/tensorviz-catalog-0.1.44
 codex plugin add tensorviz@tensorviz-standalone
 ```
 
 ```sh
-claude plugin marketplace add /absolute/path/to/tensorviz-catalog-0.1.43
+claude plugin marketplace add /absolute/path/to/tensorviz-catalog-0.1.44
 claude plugin install tensorviz@tensorviz-standalone --scope user
 ```
 
@@ -82,7 +82,7 @@ T3 mobile, remote hosts, and non-Codex providers are outside this acceptance sco
 | Problem | What to check |
 | --- | --- |
 | Launcher reports macOS-only support or no linux-x64 runtime | The old v0.3.104 lock is Darwin-only. Use a later catalog only after its Linux asset is published. Changing Python or bypassing checks cannot supply a missing binary. |
-| Unsupported execution host or glibc error | Use macOS Apple Silicon or Linux x64 with glibc >=2.35 and a matching runtime pin. ARM Linux, musl, Windows and Intel Mac are unsupported. |
+| Unsupported execution host or glibc error | Use macOS Apple Silicon or Linux x64 with glibc >=2.31 and a matching runtime pin. ARM Linux, musl, Windows and Intel Mac are unsupported. |
 | `codex` or `claude` is not found | Install the corresponding client CLI using the links in the README, reopen your terminal, and check that its plugin commands are available. |
 | `plugin` is an unknown command | Update your coding client to a version with plugin support, then reopen your terminal. |
 | Marketplace catalog not found after downloading a ZIP | The release plugin ZIP is not a marketplace. Use the complete catalog ZIP above, not a plugin ZIP or source archive. |
@@ -110,9 +110,20 @@ merge files from different releases. Then refresh Codex:
 
 ```sh
 codex plugin marketplace upgrade tensorviz-standalone
+codex plugin add tensorviz@tensorviz-standalone --json
 ```
 
-Then use Codex's plugin update/install controls and start a new chat. For Claude Code:
+Run both commands in the same execution environment and Codex profile as the
+failing chat. Confirm `version` and `installedPath` in the install result, then
+start a new chat or restart the client. A catalog refresh alone can leave the old
+plugin cache installed; `plugin list` is not sufficient evidence of replacement.
+Updating your Mac does not update a separate Linux/remote/cloud profile.
+
+Version 0.3.104 was macOS-only; 0.1.43 supports glibc Linux x64 despite its smaller
+version number. Do not patch cached launchers or mix release files. Inspect the
+actual MCP startup error if a fresh chat still has no tools.
+
+For Claude Code:
 
 ```sh
 claude plugin update tensorviz@tensorviz-standalone

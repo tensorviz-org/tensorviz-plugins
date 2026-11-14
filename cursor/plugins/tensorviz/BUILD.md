@@ -22,7 +22,7 @@ codex plugin marketplace add tensorviz-org/tensorviz-plugins
 codex plugin add tensorviz@tensorviz-standalone
 ```
 
-For a local catalog, extract `tensorviz-catalog-0.1.43.zip` into a persistent
+For a local catalog, extract `tensorviz-catalog-0.1.44.zip` into a persistent
 directory and use that absolute path instead. Never register the private source
 repository as a marketplace. The compiled runtime downloads on the first
 connection. Updating the plugin selects its new pinned runtime; an existing chat
@@ -33,7 +33,10 @@ keeping the prior complete directory for rollback. For Claude, `claude plugin up
 marketplace and installs a changed version. Automatic updates for custom Claude
 marketplaces are off by default; the user controls that setting. For Codex, refresh
 the marketplace through `codex plugin marketplace upgrade tensorviz-standalone`
-and use the client's plugin update/install controls.
+and then run `codex plugin add tensorviz@tensorviz-standalone --json`. Verify the
+returned installed version/path and start a new chat. Refresh alone does not
+replace the installed cache. Run both commands in the same Codex profile and
+execution environment as the chat, not a different local or remote host.
 
 For Cursor local evaluation, use its supported local plugin import with the
 complete `cursor/plugins/tensorviz` directory. Account or organization policy can
@@ -42,7 +45,7 @@ these instructions do not claim marketplace acceptance.
 
 ## Tools and integration boundaries
 
-The 0.1.43 host registers **29 MCP tools**. Clients that hide app-only tools
+The 0.1.44 host registers **29 MCP tools**. Clients that hide app-only tools
 expose **25** to the agent. Discover the installed server's tools and
 `list_models` capabilities before use.
 
@@ -79,10 +82,10 @@ listing.
 
 ### Compiled platform matrix
 
-The 0.1.43 candidate can pin `darwin-arm64` and `linux-x64` runtime archives,
+The 0.1.44 candidate can pin `darwin-arm64` and `linux-x64` runtime archives,
 each with its own JSON lock manifest. The backend requires CPython 3.12 with ABI
 `cpython-312-darwin` or `cpython-312-x86_64-linux-gnu` respectively. Linux requires
-glibc >=2.35; Windows, Linux ARM64, Intel Mac and musl builds are unsupported.
+glibc >=2.31; Windows, Linux ARM64, Intel Mac and musl builds are unsupported.
 No separate Node.js install or source fallback is provided.
 
 Format-1 locks still describe one runtime. Format-2 catalogs map platforms to
@@ -98,7 +101,7 @@ The local exporter reads `plugin/packaging/public/` and preserves version
 placeholders in these source templates. `PUBLICATION.json` records the exact
 integration inventory, hashes and runtime provenance. Both client locks must
 match the publication lock. The source repository native release workflow publishes
-runtime archives, client ZIPs, and the catalog ZIP under `v0.1.43`,
+runtime archives, client ZIPs, and the catalog ZIP under `v0.1.44`,
 in the public distribution repository. Tags identify audited export commits;
 PUBLICATION.json binds each export to its reviewed private source SHA. It never
 replaces source main or copies private Git history.

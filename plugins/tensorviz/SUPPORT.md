@@ -1,6 +1,6 @@
 # Support and compatibility
 
-This compiled candidate targets macOS Apple Silicon or Linux x64 (glibc >=2.35)
+This compiled candidate targets macOS Apple Silicon or Linux x64 (glibc >=2.31)
 and CPython 3.12 CPU capture. Linux requires a catalog pinning a Linux asset;
 existing v0.3.104 snapshots remain Darwin-only.
 It does not require VS Code or Node.js. Explicitly selected incompatible Python
